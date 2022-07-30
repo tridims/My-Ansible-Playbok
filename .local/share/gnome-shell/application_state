@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<application-state>
-  <context id="">
-    <application id="org.gnome.Nautilus.desktop" score="0" last-seen="1658414133"/>
-    <application id="org.gnome.Terminal.desktop" score="1350" last-seen="1658494807"/>
-    <application id="gnome-control-center.desktop" score="9" last-seen="1657977332"/>
-    <application id="org.gnome.gedit.desktop" score="74" last-seen="1658415402"/>
-  </context>
-</application-state>
