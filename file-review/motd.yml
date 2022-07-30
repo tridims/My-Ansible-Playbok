@@ -1,0 +1,53 @@
+# Create a new playbook file called motd.yml in the current directory. 
+# Using the template module, configure the motd.j2 Jinja2 template file previously created to map 
+# to the file /etc/motd on the managed hosts. 
+# This file has the root user as owner and group, and its permissions are 0644. 
+# Using the stat and debug modules, create tasks to verify that /etc/motd exists 
+# on the managed hosts and displays the file information for /etc/motd. 
+# Use the copy module to place files/issue into the /etc/ directory on the managed host, 
+# use the same ownership and permissions as /etc/motd. Use the file module to ensure 
+# that /etc/issue.net is a symbolic link to /etc/issue on the managed host. 
+# Configure the playbook so that it uses the devops user, and sets the become 
+# parameter to true.
+
+---
+- name: Configure motd on the managed hosts.
+  hosts: all
+  remote_user: devops
+  become: true
+  tasks:
+    - name: Configure /etc/motd
+      template: 
+        src: motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: verify that /etc/motd exists
+      stat:
+        path: /etc/motd
+      register: reg
+
+    - name: print debug
+      debug:
+        var: reg
+      when: reg is defined
+    
+    - name: place files/issue into the /etc/ directory
+      copy:
+        src: files/issue
+        dest: /etc/issue
+        owner: root
+        group: root
+        mode: 0644
+    
+    - name: ensure that /etc/issue.net is a symbolic link to /etc/issue
+      file:
+        src: /etc/issue
+        dest: /etc/issue.net
+        state: link
+        owner: root
+        group: root
+        force: yes
+     
